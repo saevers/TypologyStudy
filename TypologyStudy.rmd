@@ -1,0 +1,53 @@
+---
+title: "Typology Database Study"
+author: Stephanie Evers
+output: html_notebook
+---
+
+library(randomForest)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(party)
+library(edarf)
+library(forcats)
+library(stats)
+library(glmnet)
+library(caret)
+library(car)
+
+#Basic file prep (read file, convert columns in data frame to factors, prep for regression)
+
+df <- read.table("FTSdata.txt", header=TRUE)
+names <- colnames(df) #Create a vector of column names
+df[,names] <- lapply(df[,names], factor)
+
+drops <- c("ISO") #ISO is a non-binary identifier, not a variable for analysis
+df2 <- df[, !(names(df) %in% drops)] 
+
+#Binomial Logistic Regression and variance inflation test
+
+test <- glm(DefArt~., data = df2, family=binomial(link="logit"))
+vif(test)
+summary(test)
+
+#Random Forest Model
+set.seed(45)
+model1 <- randomForest(DefArt ~ ., data = df2, ntree = 500, mtry = 4, importance = TRUE)
+model1
+importance(model1)
+
+
+#Drop unimportant variables and run again
+drops <- c("Topic", "SR")
+model1 <- randomForest(DefArt ~ ., data = df2, ntree = 500, mtry = 4, importance = TRUE)
+model1
+importance(model1)
+varImpPlot(model1)
+
+#Decision Tree
+
+
+
+

@@ -1,5 +1,5 @@
 ISO	DefArt	Case	Ergativity	Topic	OAgreement	FlexSubj	SR	Isolating	VO
-CHIP	0	0	0	1	1	0	0	0	0
+CHP	0	0	0	1	1	0	0	0	0
 GIN	0	1	1	0	0	0	0	0	0
 SHV	1	0	0	0	1	0	0	1	1
 NBQ	0	0	1	0	1	1	1	0	0
