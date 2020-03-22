@@ -16,6 +16,9 @@ library(stats)
 library(glmnet)
 library(caret)
 library(car)
+library(lingtypology)
+library(rpart)
+library(rpart.plot)
 
 #Basic file prep (read file, convert columns in data frame to factors, prep for regression)
 
@@ -41,12 +44,21 @@ importance(model1)
 
 #Drop unimportant variables and run again
 drops <- c("Topic", "SR")
+df2 <- df2[, !names(df2) %in% drops]
 model1 <- randomForest(DefArt ~ ., data = df2, ntree = 500, mtry = 4, importance = TRUE)
 model1
 importance(model1)
 varImpPlot(model1)
 
 #Decision Tree
+
+set.seed(45)
+tree <- rpart(DefArt ~., data=df2, method="class", minbucket=3, maxdepth=7)
+prp(tree, main = "Definite Article Predictors", compress=TRUE, extra=106)
+
+#Language Map
+df$ISO <- tolower(df$ISO)
+map.feature(lang.iso(df$ISO))
 
 
 
