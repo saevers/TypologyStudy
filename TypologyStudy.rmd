@@ -54,7 +54,7 @@ varImpPlot(model1)
 
 set.seed(45)
 tree <- rpart(DefArt ~., data=df2, method="class", minbucket=3, maxdepth=7)
-prp(tree, main = "Definite Article Predictors", compress=TRUE, extra=106)
+prp(tree, main = "Definite Article Predictors", compress=TRUE, extra=106, box.palette = "auto")
 
 #Language Map
 df$ISO <- tolower(df$ISO)
